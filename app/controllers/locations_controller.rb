@@ -12,10 +12,19 @@ class LocationsController < ApplicationController
   end
 
   def create
-    @location = Location.new
+    # clean address
+    @street_address = params[:Address]
+    url_safe_street_address = URI.encode(@street_address)
+
+    # get lat & long data
+    loc_url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{url_safe_street_address}"
+    parsed_loc_data = JSON.parse(open(loc_url).read)
+    latitude = parsed_loc_data["results"][0]["geometry"]["location"]["lat"]
+    longitude = parsed_loc_data["results"][0]["geometry"]["location"]["lng"]
+
     @location.user_id = params[:user_id]
-    @location.Longitude = params[:Longitude]
-    @location.Latitude = params[:Latitude]
+    @location.Longitude = longitude
+    @location.Latitude = latitude
     @location.Address = params[:Address]
     @location.Name = params[:Name]
 
