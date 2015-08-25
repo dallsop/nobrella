@@ -1,0 +1,73 @@
+<!-- Validation failure messages -->
+<% if @location.errors.any? %>
+  <% @location.errors.full_messages.each do |message| %>
+    <div class="alert alert-dismissable alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <%= message %>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="page-header">
+  <h3>Edit Location #<%= @location.id %></h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <form action="/update_location/<%= @location.id %>" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Label and input for user_id -->
+      <div class="form-group">
+        <label for="user_id" class="control-label">
+          User
+        </label>
+
+        <input type="text" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= @location.user_id %>">
+      </div>
+
+      <!-- Label and input for Longitude -->
+      <div class="form-group">
+        <label for="Longitude" class="control-label">
+          Longitude
+        </label>
+
+        <input type="text" id="Longitude" name="Longitude" placeholder="Longitude" class="form-control" value="<%= @location.Longitude %>">
+      </div>
+
+      <!-- Label and input for Latitude -->
+      <div class="form-group">
+        <label for="Latitude" class="control-label">
+          Latitude
+        </label>
+
+        <input type="text" id="Latitude" name="Latitude" placeholder="Latitude" class="form-control" value="<%= @location.Latitude %>">
+      </div>
+
+      <!-- Label and input for Address -->
+      <div class="form-group">
+        <label for="Address" class="control-label">
+          Address
+        </label>
+
+        <input type="text" id="Address" name="Address" placeholder="Address" class="form-control" value="<%= @location.Address %>">
+      </div>
+
+      <!-- Label and input for Name -->
+      <div class="form-group">
+        <label for="Name" class="control-label">
+          Name
+        </label>
+
+        <input type="text" id="Name" name="Name" placeholder="Name" class="form-control" value="<%= @location.Name %>">
+      </div>
+
+      <button class="btn btn-warning">
+        Update Location
+      </button>
+      or
+      <a href="/locations/<%= @location.id %>">Cancel</a>
+    </form>
+  </div>
+</div>
