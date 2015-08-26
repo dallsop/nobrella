@@ -59,37 +59,37 @@ class NobrellasController < ApplicationController
         if w[2] < 50
           take_coat = TRUE
           cold[0] = TRUE
-          cold[1] = [cold[1],get_time_group(now_unix_time,w[0])].max
+          cold[1] = [cold[1], get_time_group(now_unix_time, w[0])].max
         elsif w[2] < 70
           take_jacket = TRUE
           chilly[0] = TRUE
-          chilly[1] = [chilly[1],get_time_group(now_unix_time,w[0])].max
+          chilly[1] = [chilly[1], get_time_group(now_unix_time, w[0])].max
         end
         # CONDITION CHECKS #
         # rain
         if w[1] == "rain"
           take_umbrella = TRUE
           rain[0] = TRUE
-          rain[1] = [rain[1],get_time_group(now_unix_time,w[0])].max
+          rain[1] = [rain[1], get_time_group(now_unix_time, w[0])].max
         end
         # snow
         if w[1] == "snow"
           take_coat = TRUE
           snow[0] = TRUE
-          snow[1] = [snow[1],get_time_group(now_unix_time,w[0])].max
+          snow[1] = [snow[1], get_time_group(now_unix_time, w[0])].max
         end
         # sleet
         if w[1] == "sleet"
           take_umbrella = TRUE
           take_coat = TRUE
           sleet[0] = TRUE
-          sleet[1] = [sleet[1],get_time_group(now_unix_time,w[0])].max
+          sleet[1] = [sleet[1], get_time_group(now_unix_time, w[0])].max
         end
         # sun
         if w[1] == "clear-day"
           take_sunglasses = TRUE
           sunny[0] = TRUE
-          sunny[1] = [sunny[1],get_time_group(now_unix_time,w[0])].max
+          sunny[1] = [sunny[1], get_time_group(now_unix_time, w[0])].max
         end
       end
 
@@ -97,20 +97,87 @@ class NobrellasController < ApplicationController
       things = Array.new
       things.push("a coat") if take_coat == TRUE
       things.push("an umbrella") if take_umbrella == TRUE
-      things.push("sunglasses") if take_sunglasses == TRUE
+      things.push("some sunglasses") if take_sunglasses == TRUE
       if take_jacket == TRUE and take_coat == FALSE #coat and jacket mutually exclusive
         things.push("a jacket")
       end
 
-      conditions = Array.new
+      conditions = Array.new # conditions sorted deliberately to have at most one for each time period
+      conditions.push(["a little chilly", chilly[1]]) if chilly[0] == TRUE
+      conditions.push(["pretty cold", cold[1]]) if cold[0] == TRUE
+      conditions.push(["nice and sunny", sunny[1]]) if sunny[0] == TRUE
       conditions.push(["rain", rain[1]]) if rain[0] == TRUE
       conditions.push(["snow", snow[1]]) if snow[0] == TRUE
       conditions.push(["sleet", sleet[1]]) if sleet[0] == TRUE
-      conditions.push(["sunny", sunny[1]]) if sunny[0] == TRUE
-      conditions.push(["cold", cold[1]]) if cold[0] == TRUE
-      conditions.push(["chilly", chilly[1]]) if chilly[0] == TRUE
 
-      
+      # segregate conditions by time
+      conditions_later = FALSE
+      conditions_soon = FALSE
+      conditions_now = FALSE
+      conditions.each do |c|
+        if c[1] == 3
+          conditions_later = TRUE
+          if c[0] == "a little chilly" or c[0] == "pretty cold" or c[0] == "nice and sunny"
+            the_condition_later = "be #{c[0]}"
+          else
+            the_condition_later = c[0]
+          end
+        elsif c[1] == 2
+          conditions_soon = TRUE
+          if c[0] == "a little chilly" or c[0] == "pretty cold" or c[0] == "nice and sunny"
+            the_condition_soon = "be #{c[0]}"
+          else
+            the_condition_soon = c[0]
+          end
+        else
+          conditions_now = TRUE
+          if c[0] == "rain" or c[0] == "sleet" or c[0] == "snow"
+            the_condition_now = c[0] + "ing"
+          else
+            the_condition_now = c[0]
+          end
+        end
+      end
+
+      # write advice message
+      case things.count
+        when 0
+          @nobrella_advice = "Nothing to take."
+          @nobrella_detail = "You should be good in a t-shirt."
+        when 1
+          @nobrella_advice = "Take #{things[0]}."
+        when 2
+          @nobrella_advice = "Take #{things[0]} and #{things[1]}."
+        when 3
+          @nobrella_advice = "Take #{things[0]}, #{things[1]}, and #{things[2]}."
+      end
+
+      # write detail message
+      if conditions_now == TRUE
+        @nobrella_detail = "It's #{the_condition_now} out now"
+        if conditions_soon == TRUE
+          if conditions_later == TRUE
+            @nobrella_detail += ", it's gonna #{the_condition_soon} soon, and it'll #{the_condition_later} later."
+          else
+            @nobrella_detail += " and it's gonna #{the_condition_soon} soon."
+          end
+        else
+          if conditions_later == TRUE
+            @nobrella_detail += " and it'll #{the_condition_later} later."
+          else
+            @nobrella_detail += "."
+          end
+        end
+      elsif conditions_soon == TRUE
+        @nobrella_detail = "It's gonna #{the_condition_now} soon"
+        if conditions_later == TRUE
+          @nobrella_detail += " and it'll #{the_condition_later} later."
+        else
+          @nobrella_detail += "."
+        end
+      elsif conditions_later == TRUE
+        @nobrella_detail = "It'll #{the_condition_later} later."
+      end
 
 
     else
