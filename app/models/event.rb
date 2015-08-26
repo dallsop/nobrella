@@ -1,7 +1,7 @@
 class Event < ActiveRecord::Base
-  validates :Start, presence:true, uniqueness: {through: :Day}
+  validates :Start, presence:true, uniqueness: {scope: :Day}
   validates :Day, presence:true
 
   belongs_to :user
-  has_many :locations
+  belongs_to :location
 end

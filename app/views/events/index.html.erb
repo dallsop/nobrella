@@ -5,62 +5,40 @@
   </h1>
 </div>
 
-<div class="container">
-  <div class="row">
-    <div class="col-sm-1">
-      <b>Monday</b>
-      <%= @events.where({Day: "Monday"}).each do |e| %>
-          Leave for <%= e.locations.Name %> at <%= e.Start %>
-      <%= end %>
-    </div>
-    <div class="col-sm-1">
-      Tuesday
-    </div>
-    <div class="col-sm-1">
-      Wednesday
-    </div>
-    <div class="col-sm-1">
-      Thursday
-    </div>
-    <div class="col-sm-1">
-      Friday
-    </div>
-    <div class="col-sm-1">
-      Saturday
-    </div>
-    <div class="col-sm-1">
-      Sunday
-    </div>
-  </div>
-</div>
-
-
-
 <div class="row">
   <div class="col-md-12">
-    <table class="table table-striped table-hover">
-      <tr>
-        <th>Monday</th>
-        <th>Tuesday</th>
-        <th>Wednesday</th>
-        <th>Thursday</th>
-        <th>Friday</th>
-        <th>Saturday</th>
-        <th>Sunday</th>
+    <table class="table table-striped">
+      <tr align="center">
+        <% @days.each do |day| %>
+            <th class="text-center"><%= day %></th>
+        <% end %>
       </tr>
-
-      <% @events.each do |event| %>
-          <tr>
-            <td><%= event.Start %></td>
-            <td><%= event.Day %></td>
-            <td><%= event.location_id %></td>
-            <td>
-              <a href="/events/<%= event.id %>" class="btn btn-primary">Show</a>
-              <a href="/events/<%= event.id %>/edit" class="btn btn-warning">Edit</a>
-              <a href="/delete_event/<%= event.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+      <tr>
+        <% @days.each do |day| %>
+            <td class="text-center">
+              <% @events.where({Day: day}).each do |e| %>
+                  <div class="panel">
+                    <div class="btn-group-justified btn-group-md">
+                      <a href="/events/<%= e.id %>/edit" class="btn btn-primary">
+                        <%= e.Start %>:
+                        <%= e.location.Name %>
+                      </a>
+                    </div>
+                    <div class="btn-group btn-group-justified btn-group-sm">
+                      <a href="/events/<%= e.id %>/duplicate_left" class="btn btn-info"> < </a>
+                      <a href="/events/<%= e.id %>/duplicate_left" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-trash"></span>
+                      </a>
+                      <a href="/events/<%= e.id %>/duplicate_right" class="btn btn-info"> > </a>
+                    </div>
+                  </div>
+              <% end %>
+              <div class="btn-group btn-group-justified btn-group-sm">
+                <a href="/events/add" class="btn btn-success">Add</a>
+              </div>
             </td>
-          </tr>
-      <% end %>
+        <% end %>
+      </tr>
     </table>
   </div>
 </div>

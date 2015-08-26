@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   def index
+    @days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     @events = Event.where({user_id: current_user.id}).order("Start ASC")
   end
 
