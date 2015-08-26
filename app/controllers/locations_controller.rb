@@ -28,7 +28,7 @@ class LocationsController < ApplicationController
 
       # assign all values to new db row
       @location = Location.new
-      @location.user_id = params[:user_id]
+      @location.user_id = current_user.id
       @location.Name = params[:Name]
       @location.Longitude = longitude
       @location.Latitude = latitude

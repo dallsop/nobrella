@@ -5,6 +5,7 @@ class EventsController < ApplicationController
   end
 
   def new
+    @days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     @event = Event.new
   end
 
@@ -13,19 +14,22 @@ class EventsController < ApplicationController
     @event.Start = params[:Start]
     @event.Day = params[:Day]
     @event.location_id = params[:location_id]
+    @event.user_id = current_user.id
 
     if @event.save
-      redirect_to "/events", :notice => "Event created successfully."
+      redirect_to "/events", :notice => "Successfully added."
     else
       render 'new'
     end
   end
 
   def edit
+
     @event = Event.find(params[:id])
   end
 
   def update
+    @days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     @event = Event.find(params[:id])
 
     @event.Start = params[:Start]
@@ -33,7 +37,7 @@ class EventsController < ApplicationController
     @event.location_id = params[:location_id]
 
     if @event.save
-      redirect_to "/events", :notice => "Event updated successfully."
+      redirect_to "/events", :notice => "Successfully updated."
     else
       render 'edit'
     end
