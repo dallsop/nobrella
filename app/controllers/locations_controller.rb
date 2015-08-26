@@ -1,3 +1,5 @@
+require 'open-uri'
+
 class LocationsController < ApplicationController
   def index
     @locations = Location.all
@@ -16,42 +18,69 @@ class LocationsController < ApplicationController
     @street_address = params[:Address]
     url_safe_street_address = URI.encode(@street_address)
 
-    # get lat & long data
+    # connect to Google Maps API
     loc_url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{url_safe_street_address}"
     parsed_loc_data = JSON.parse(open(loc_url).read)
-    latitude = parsed_loc_data["results"][0]["geometry"]["location"]["lat"]
-    longitude = parsed_loc_data["results"][0]["geometry"]["location"]["lng"]
 
-    @location.user_id = params[:user_id]
-    @location.Longitude = longitude
-    @location.Latitude = latitude
-    @location.Address = params[:Address]
-    @location.Name = params[:Name]
+    # flag for accurate data
+    if parsed_loc_data["status"] != "ZERO_RESULTS"
 
-    if @location.save
-      redirect_to "/locations", :notice => "Location created successfully."
+      # get lat, long, and clean address
+      latitude = parsed_loc_data["results"][0]["geometry"]["location"]["lat"]
+      longitude = parsed_loc_data["results"][0]["geometry"]["location"]["lng"]
+      clean_address = parsed_loc_data["results"][0]["formatted_address"].to_s
+
+      # assign all values to new db row
+      @location = Location.new
+      @location.user_id = params[:user_id]
+      @location.Name = params[:Name]
+      @location.Longitude = longitude
+      @location.Latitude = latitude
+      @location.Address = clean_address
+
+      # save new row and redirect to locations page
+      @location.save
+      redirect_to "/locations", notice: "Location created successfully."
     else
-      render 'new'
+      render 'new', notice: "Invalid location."
     end
   end
+
 
   def edit
     @location = Location.find(params[:id])
   end
 
   def update
-    @location = Location.find(params[:id])
+    # clean address
+    @street_address = params[:Address]
+    url_safe_street_address = URI.encode(@street_address)
 
-    @location.user_id = params[:user_id]
-    @location.Longitude = params[:Longitude]
-    @location.Latitude = params[:Latitude]
-    @location.Address = params[:Address]
-    @location.Name = params[:Name]
+    # connect to Google Maps API
+    loc_url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{url_safe_street_address}"
+    parsed_loc_data = JSON.parse(open(loc_url).read)
 
-    if @location.save
-      redirect_to "/locations", :notice => "Location updated successfully."
+    # flag for accurate data
+    if parsed_loc_data["status"] != "ZERO_RESULTS"
+
+      # get lat, long, and clean address
+      latitude = parsed_loc_data["results"][0]["geometry"]["location"]["lat"]
+      longitude = parsed_loc_data["results"][0]["geometry"]["location"]["lng"]
+      clean_address = parsed_loc_data["results"][0]["formatted_address"]
+
+      # assign all values to new db row
+      @location = Location.find(params[:id])
+      @location.user_id = params[:user_id]
+      @location.Name = params[:Name]
+      @location.Longitude = longitude
+      @location.Latitude = latitude
+      @location.Address = clean_address
+
+      # save new row and redirect to locations page
+      @location.save
+      redirect_to "/locations", notice: "Location updated successfully."
     else
-      render 'edit'
+      render 'edit', notice: "Invalid location."
     end
   end
 
@@ -62,4 +91,5 @@ class LocationsController < ApplicationController
 
     redirect_to "/locations", :notice => "Location deleted."
   end
+
 end

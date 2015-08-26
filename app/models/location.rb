@@ -1,5 +1,5 @@
 class Location < ActiveRecord::Base
-  validates :name, presence:true, uniqueness: {scope: :user}
+  validates :Name, presence:true, uniqueness: {scope: :user_id}
 
   belongs_to :user
 end
