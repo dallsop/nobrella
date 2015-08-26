@@ -34,6 +34,7 @@ class NobrellasController < ApplicationController
         weather_info_array.push([target_time, weather_summary, temperature, precipitation])
       end
 
+
       ##### logic to create weather messages #####
 
       @nobrella_advice = ""
@@ -114,8 +115,11 @@ class NobrellasController < ApplicationController
       conditions_later = FALSE
       conditions_soon = FALSE
       conditions_now = FALSE
+      the_condition_later = ""
+      the_condition_soon = ""
+      the_condition_now = ""
       conditions.each do |c|
-        if c[1] == 3
+        if c[1] == 1
           conditions_later = TRUE
           if c[0] == "a little chilly" or c[0] == "pretty cold" or c[0] == "nice and sunny"
             the_condition_later = "be #{c[0]}"
@@ -129,7 +133,7 @@ class NobrellasController < ApplicationController
           else
             the_condition_soon = c[0]
           end
-        else
+        elsif c[1] == 3
           conditions_now = TRUE
           if c[0] == "rain" or c[0] == "sleet" or c[0] == "snow"
             the_condition_now = c[0] + "ing"
@@ -143,7 +147,6 @@ class NobrellasController < ApplicationController
       case things.count
         when 0
           @nobrella_advice = "Nothing to take."
-          @nobrella_detail = "You should be good in a t-shirt."
         when 1
           @nobrella_advice = "Take #{things[0]}."
         when 2
@@ -178,13 +181,19 @@ class NobrellasController < ApplicationController
       elsif conditions_later == TRUE
         @nobrella_detail = "It'll #{the_condition_later} later."
       end
-
-
     else
-
+      @nobrella_advice = "No plans coming up."
+      if Location.where({user_id: current_user.id}).count > 0 # if user has any locations set up
+        sample_location = Location.where({user_id: current_user.id}).sample
+        latitude = sample_location.Latitude
+        longitude = sample_location.Longitude
+        forecast_url = "https://api.forecast.io/forecast/17593b21cc409b60b31ec90b6a5d8d38/#{latitude},#{longitude}"
+        parsed_forecast_data = JSON.parse(open(forecast_url).read)
+        current_summary = parsed_forecast_data["currently"]["summary"].downcase
+        @nobrella_detail = "It's #{current_summary} out if you were thinking about leaving."
+      end
+      @nobrella_detail = "N/A"
     end
-
-
   end
 
   def get_time_group(now, target)

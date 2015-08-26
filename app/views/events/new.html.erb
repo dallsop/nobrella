@@ -21,7 +21,7 @@
       <!-- Label and input for location_id -->
       <div class="form-group">
         <label for="location_id" class="control-label">
-          Place
+          Where to?
         </label>
         <%= select_tag(:location_id, options_from_collection_for_select(Location.where({user_id: current_user.id}).order("Name ASC"), :id, :Name), class: "form-control") %>
       </div>
@@ -29,16 +29,15 @@
       <!-- Label and input for Start -->
       <div class="form-group">
         <label for="Start" class="control-label">
-          Time
+          What time?
         </label>
-
         <input type="text" id="Start" name="Start" placeholder="Time" class="form-control" value="<%= @event.Start %>">
       </div>
 
       <!-- Label and input for Day -->
       <div class="form-group">
         <label for="Day" class="control-label">
-          Day
+          What day?
         </label>
         <%= select_tag(:Day, options_for_select(@days), class: "form-control") %>
       </div>
