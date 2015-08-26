@@ -14,6 +14,6 @@
  *= require_self
  */
 
-.btn-group{
-
+.vertical-center-table-row{
+    vertical-align: middle;
 }

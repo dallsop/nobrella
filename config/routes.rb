@@ -2,7 +2,9 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  root 'events#index'
+  # MAIN ROUTE
+  root 'nobrellas#index'
+  #-----------------------------
 
   # Routes for the Event resource:
   # CREATE
