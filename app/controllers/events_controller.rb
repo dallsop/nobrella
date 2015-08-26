@@ -1,10 +1,6 @@
 class EventsController < ApplicationController
   def index
-    @events = Event.all
-  end
-
-  def show
-    @event = Event.find(params[:id])
+    @events = Event.where({user_id: current_user.id}).order("Start ASC")
   end
 
   def new

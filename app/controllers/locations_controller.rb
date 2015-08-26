@@ -2,11 +2,7 @@ require 'open-uri'
 
 class LocationsController < ApplicationController
   def index
-    @locations = Location.all
-  end
-
-  def show
-    @location = Location.find(params[:id])
+    @locations = Location.where({user_id: current_user.id}).order("Name ASC")
   end
 
   def new
