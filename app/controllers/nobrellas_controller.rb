@@ -145,7 +145,8 @@ class NobrellasController < ApplicationController
       # write advice message
       case things.count
         when 0
-          @nobrella_advice = "Nothing to take."
+          @nobrella_advice = "You don't need anything!"
+          @nobrella_detail = "It's pretty nice out."
         when 1
           @nobrella_advice = "Take #{things[0]}."
         when 2
@@ -191,7 +192,7 @@ class NobrellasController < ApplicationController
         forecast_url = "https://api.forecast.io/forecast/17593b21cc409b60b31ec90b6a5d8d38/#{@latitude},#{@longitude}"
         parsed_forecast_data = JSON.parse(open(forecast_url).read)
         current_summary = parsed_forecast_data["currently"]["summary"].downcase
-        @nobrella_detail = "It's #{current_summary} out if you were thinking about leaving."
+        @nobrella_detail = "But it's #{current_summary} out if you were thinking about leaving."
       else
         @nobrella_detail = "N/A"
       end

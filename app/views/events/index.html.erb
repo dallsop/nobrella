@@ -1,8 +1,8 @@
 <div class="page-header">
-  <h1>
+  <h2>
     Weekly Schedule
     <!--<a href="/events/new" class="btn btn-lg btn-success">New Event</a>-->
-  </h1>
+  </h2>
 </div>
 
 <div class="row">
@@ -20,7 +20,7 @@
                   <div class="panel">
                     <div class="btn-group-justified btn-group-md">
                       <a href="/events/<%= e.id %>/edit" class="btn btn-primary">
-                        <%= e.Start %>:
+                        <%= Chronic.parse((e.Start / 60).to_i.to_s + ":" + (e.Start % 60).to_s).strftime('%l:%M%P') %>:
                         <%= e.location.Name %>
                       </a>
                     </div>
@@ -34,7 +34,7 @@
                   </div>
               <% end %>
               <div class="btn-group btn-group-justified btn-group-sm">
-                <a href="/events/new" class="btn btn-success">Add</a>
+                <a href="/events/new/<%= day %>" class="btn btn-success">Add</a>
               </div>
             </td>
         <% end %>

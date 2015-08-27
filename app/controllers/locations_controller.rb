@@ -84,7 +84,7 @@ class LocationsController < ApplicationController
     @location = Location.find(params[:id])
 
     # find related events if any
-    events_to_destroy = Event.where("user_id = ? AND location_id = ", current_user.id, @location.id)
+    events_to_destroy = Event.where("user_id = ? AND location_id = ?", current_user.id, @location.id)
     events_to_destroy.each do |e|
       e.destroy
     end

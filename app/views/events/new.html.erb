@@ -1,15 +1,15 @@
 <!-- Validation failure messages -->
 <% if @event.errors.any? %>
-  <% @event.errors.full_messages.each do |message| %>
-    <div class="alert alert-dismissable alert-danger">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      <%= message %>
-    </div>
-  <% end %>
+    <% @event.errors.full_messages.each do |message| %>
+        <div class="alert alert-dismissable alert-danger">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <%= message %>
+        </div>
+    <% end %>
 <% end %>
 
 <div class="page-header">
-  <h3>Add Event</h3>
+  <h3>New Event</h3>
 </div>
 
 <div class="row">
@@ -31,7 +31,7 @@
         <label for="Start" class="control-label">
           What time?
         </label>
-        <input type="text" id="Start" name="Start" placeholder="Time" class="form-control" value="<%= @event.Start %>">
+        <input type="text" id="Start" name="Start" placeholder="e.g. '6am' or '5:30pm'" class="form-control" value="<%= @event.Start %>">
       </div>
 
       <!-- Label and input for Day -->
@@ -39,13 +39,12 @@
         <label for="Day" class="control-label">
           What day?
         </label>
-        <%= select_tag(:Day, options_for_select(@days), class: "form-control") %>
+        <%= select_tag(:Day, options_for_select(@days, @input_day), class: "form-control") %>
       </div>
 
 
-
       <button class="btn btn-success">
-        Create
+        Add
       </button>
       or
       <a href="/events">Cancel</a>

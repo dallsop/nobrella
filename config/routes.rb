@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   # Routes for the Event resource:
   # CREATE
-  get "/events/new", :controller => "events", :action => "new"
+  get "/events/new/:day", :controller => "events", :action => "new"
   post "/create_event", :controller => "events", :action => "create"
 
   # DUPLICATE

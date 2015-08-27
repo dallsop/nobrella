@@ -6,20 +6,26 @@ class EventsController < ApplicationController
 
   def new
     @days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    @input_day = params[:day]
     @event = Event.new
   end
 
   def create
-    @event = Event.new
-    @event.Start = params[:Start]
-    @event.Day = params[:Day]
-    @event.location_id = params[:location_id]
-    @event.user_id = current_user.id
-
-    if @event.save
-      redirect_to "/events"
+    if Chronic.parse(params[:Start]) == nil
+      redirect_to "/events/new/#{params[:Day]}", alert: "Time not valid."
     else
-      render 'new'
+      @event = Event.new
+      start_time_in_minutes = (Chronic.parse(params[:Start]).strftime('%H').to_i * 60) + (Chronic.parse(params[:Start]).strftime('%M').to_i)
+      @event.Start = start_time_in_minutes
+      @event.Day = params[:Day]
+      @event.location_id = params[:location_id]
+      @event.user_id = current_user.id
+
+      if @event.save
+        redirect_to "/events"
+      else
+        render 'new'
+      end
     end
   end
 
@@ -65,8 +71,8 @@ class EventsController < ApplicationController
   def update
     @days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     @event = Event.find(params[:id])
-
-    @event.Start = params[:Start]
+    start_time_in_minutes = (Chronic.parse(params[:Start]).strftime('%H').to_i * 60) + (Chronic.parse(params[:Start]).strftime('%M').to_i)
+    @event.Start = start_time_in_minutes
     @event.Day = params[:Day]
     @event.location_id = params[:location_id]
 
