@@ -88,6 +88,6 @@ class EventsController < ApplicationController
 
     @event.destroy
 
-    redirect_to "/events", :notice => "Event deleted."
+    redirect_to "/events"
   end
 end

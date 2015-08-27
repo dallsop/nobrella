@@ -19,12 +19,12 @@ class NobrellasController < ApplicationController
       now_unix_time = Date.today.to_time.to_i # time in seconds since 1/1/1970 to match forecast.io API
       key_events.each do |e|
         # API input variables
-        latitude = e.location.Latitude
-        longitude = e.location.Longitude
+        @latitude = e.location.Latitude
+        @longitude = e.location.Longitude
         target_time = now_unix_time + (60 * (e.Start - now_in_minutes))
         target_time += 86400 if e.Day == tomorrow_weekday # add one day's time in seconds if day is tomorrow
         # get weather data
-        forecast_url = "https://api.forecast.io/forecast/17593b21cc409b60b31ec90b6a5d8d38/#{latitude},#{longitude},#{target_time}"
+        forecast_url = "https://api.forecast.io/forecast/17593b21cc409b60b31ec90b6a5d8d38/#{@latitude},#{@longitude},#{target_time}"
         parsed_forecast_data = JSON.parse(open(forecast_url).read)
         # pull out key values
         weather_summary = parsed_forecast_data["currently"]["icon"]
@@ -147,6 +147,8 @@ class NobrellasController < ApplicationController
         when 0
           @nobrella_advice = "You don't need anything!"
           @nobrella_detail = "It's pretty nice out."
+          @latitude = key_events[0].location.Latitude
+          @longitude = key_events[0].location.Longitude
         when 1
           @nobrella_advice = "Take #{things[0]}."
         when 2
@@ -173,7 +175,7 @@ class NobrellasController < ApplicationController
           end
         end
       elsif conditions_soon == TRUE
-        @nobrella_detail = "It's gonna #{the_condition_now} soon"
+        @nobrella_detail = "It's gonna #{the_condition_soon} soon"
         if conditions_later == TRUE
           @nobrella_detail += " and it'll #{the_condition_later} later."
         else
