@@ -25,11 +25,11 @@
                       </a>
                     </div>
                     <div class="btn-group btn-group-justified btn-group-sm">
-                      <a href="/events/<%= e.id %>/duplicate_left" class="btn btn-default"> << </a>
+                      <a href="/events/duplicate_left/<%= e.id %>" class="btn btn-default"> << </a>
                       <a href="/delete_event/<%= e.id %>" class="btn btn-danger">
                         <span class="glyphicon glyphicon-trash"></span>
                       </a>
-                      <a href="/events/<%= e.id %>/duplicate_right" class="btn btn-default"> >> </a>
+                      <a href="/events/duplicate_right/<%= e.id %>" class="btn btn-default"> >> </a>
                     </div>
                   </div>
               <% end %>

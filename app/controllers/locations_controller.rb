@@ -74,9 +74,9 @@ class LocationsController < ApplicationController
 
       # save new row and redirect to locations page
       @location.save
-      redirect_to "/locations", notice: "Location updated successfully."
+      redirect_to "/locations"
     else
-      render 'edit', notice: "Invalid location."
+      render 'edit', alert: "Invalid location."
     end
   end
 

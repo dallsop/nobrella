@@ -11,6 +11,10 @@ Rails.application.routes.draw do
   get "/events/new", :controller => "events", :action => "new"
   post "/create_event", :controller => "events", :action => "create"
 
+  # DUPLICATE
+  get "/events/duplicate_right/:id", :controller => "events", :action => "duplicate_right"
+  get "/events/duplicate_left/:id", :controller => "events", :action => "duplicate_left"
+
   # READ
   get "/events", :controller => "events", :action => "index"
 

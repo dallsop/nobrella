@@ -34,7 +34,6 @@ class NobrellasController < ApplicationController
         weather_info_array.push([target_time, weather_summary, temperature, precipitation])
       end
 
-
       ##### logic to create weather messages #####
 
       @nobrella_advice = ""
@@ -153,6 +152,7 @@ class NobrellasController < ApplicationController
           @nobrella_advice = "Take #{things[0]} and #{things[1]}."
         when 3
           @nobrella_advice = "Take #{things[0]}, #{things[1]}, and #{things[2]}."
+        else
       end
 
       # write detail message
@@ -183,16 +183,18 @@ class NobrellasController < ApplicationController
       end
     else
       @nobrella_advice = "No plans coming up."
-      if Location.where({user_id: current_user.id}).count > 0 # if user has any locations set up
-        sample_location = Location.where({user_id: current_user.id}).sample
-        latitude = sample_location.Latitude
-        longitude = sample_location.Longitude
-        forecast_url = "https://api.forecast.io/forecast/17593b21cc409b60b31ec90b6a5d8d38/#{latitude},#{longitude}"
+      all_user_locations = Location.where({user_id: current_user.id})
+      if all_user_locations.count > 0 # if user has any locations set up
+        sample_location = all_user_locations.sample
+        @latitude = sample_location.Latitude
+        @longitude = sample_location.Longitude
+        forecast_url = "https://api.forecast.io/forecast/17593b21cc409b60b31ec90b6a5d8d38/#{@latitude},#{@longitude}"
         parsed_forecast_data = JSON.parse(open(forecast_url).read)
         current_summary = parsed_forecast_data["currently"]["summary"].downcase
         @nobrella_detail = "It's #{current_summary} out if you were thinking about leaving."
+      else
+        @nobrella_detail = "N/A"
       end
-      @nobrella_detail = "N/A"
     end
   end
 

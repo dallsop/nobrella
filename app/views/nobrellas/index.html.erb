@@ -1,3 +1,11 @@
 <h2 align="middle"><%= @nobrella_advice %></h2>
 
-<h3 align="middle"><%= @nobrella_detail %></h3>
+<h3 align="middle">
+  <% if @nobrella_detail == "N/A" %>
+      Why not add some <a href="/locations/new">locations</a> and <a href="/events/index">events?</a>
+  <% else %>
+      <a href="http://www.forecast.io/#/f/<%= @latitude %>,<%= @longitude %>">
+        <%= @nobrella_detail %>
+      </a>
+  <% end %>
+</h3>
