@@ -15,10 +15,10 @@
 <% if Location.where({user_id: current_user.id}).count == 0 %>
     <div class="row">
       <div class="col-md-12">
-        <h2>
+        <h4>
           <strong style="color: red">WARNING:</strong> You have no places saved.
           <a href="/locations/new">Add a new place first.</a>
-        </h2>
+        </h4>
       </div>
     </div>
 <% end %>
@@ -42,7 +42,7 @@
         <label for="start" class="control-label">
           What time do you normally leave?
         </label>
-        <input type="text" id="start" name="start" placeholder="e.g. '6am' or '5:30pm'" class="form-control" value="<%= @event.start %>">
+        <input type="text" id="start" name="start" placeholder="e.g. '6am' or '5:30pm'" class="form-control">
       </div>
 
       <!-- Label and input for day -->
