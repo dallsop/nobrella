@@ -21,7 +21,7 @@
                     <div class="btn-group-justified btn-group-md">
                       <a href="/events/<%= e.id %>/edit" class="btn btn-primary">
                         <%= Chronic.parse((e.Start / 60).to_i.to_s + ":" + (e.Start % 60).to_s).strftime('%l:%M%P') %>:
-                        <%= e.location.Name %>
+                        <strong><%= e.location.Name %></strong>
                       </a>
                     </div>
                     <div class="btn-group btn-group-justified btn-group-sm">
@@ -40,5 +40,14 @@
         <% end %>
       </tr>
     </table>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="pull-right">
+      <a href="/" class="btn btn-warning btn-lg">
+        Nobrella
+      </a>
+    </div>
   </div>
 </div>

@@ -31,7 +31,7 @@
         <label for="Start" class="control-label">
           What time?
         </label>
-        <input type="text" id="Start" name="Start" placeholder="Start" class="form-control" value="<%= @event.Start %>">
+        <input type="text" id="Start" name="Start" placeholder="Start" class="form-control" value="<%= Chronic.parse((@event.Start / 60).to_i.to_s + ":" + (@event.Start % 60).to_s).strftime('%l:%M%P') %>">
       </div>
 
       <!-- Label and input for Day -->

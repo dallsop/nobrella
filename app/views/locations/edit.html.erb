@@ -9,7 +9,7 @@
 <% end %>
 
 <div class="page-header">
-  <h3>Edit Location #<%= @location.id %></h3>
+  <h3>Edit <%= @location.Name %></h3>
 </div>
 
 <div class="row">
@@ -39,8 +39,8 @@
         <input type="text" id="Address" name="Address" placeholder="Address" class="form-control" value="<%= @location.Address %>">
       </div>
 
-      <button class="btn btn-warning">
-        Update Location
+      <button class="btn btn-md btn-warning">
+        Update Place
       </button>
       or
       <a href="/locations">Cancel</a>

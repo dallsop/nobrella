@@ -1,6 +1,6 @@
 <div class="page-header">
   <h2>
-    Locations
+    Places
   </h2>
 </div>
 <div class="row">
@@ -16,12 +16,21 @@
             <td><%= location.Name %></td>
             <td><%= location.Address %></td>
             <td align="right">
-                <a href="/locations/<%= location.id %>/edit" class="btn btn-sm btn-default">Edit</a>
-                <a href="/delete_location/<%= location.id %>" class="btn btn-sm btn-default" rel="nofollow">Delete</a>
+              <a href="/locations/<%= location.id %>/edit" class="btn btn-sm btn-primary">Edit</a>
+              <a href="/delete_location/<%= location.id %>" class="btn btn-sm btn-primary" rel="nofollow">Delete</a>
             </td>
           </tr>
       <% end %>
     </table>
   </div>
 </div>
-<a href="/locations/new" class="btn btn-md btn-success">Add Location</a>
+<a href="/locations/new" class="btn btn-md btn-success">Add Place</a>
+<div class="row">
+  <div class="col-md-12">
+    <div class="pull-right">
+      <a href="/" class="btn btn-warning btn-lg">
+        Nobrella
+      </a>
+    </div>
+  </div>
+</div>
