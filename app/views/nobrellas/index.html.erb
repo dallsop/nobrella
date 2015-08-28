@@ -2,7 +2,7 @@
 
 <h3 align="middle">
   <% if @nobrella_detail == "N/A" %>
-      Why not add some <a href="/locations/new">locations</a> and set up your <a href="/events/index">weekly schedule</a>?
+      Why not add some <a href="/locations/new">locations</a> and set up your <a href="/events">weekly schedule</a>?
   <% else %>
       <a href="http://www.forecast.io/#/f/<%= @latitude %>,<%= @longitude %>">
         <%= @nobrella_detail %>

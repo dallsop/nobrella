@@ -12,15 +12,16 @@
   <h3>New Event</h3>
 </div>
 
-<div class="row">
-  <div class="col-md-12">
-    <h3>
-      <strong style="color=red">WARNING:</strong> You have no places saved.
-      <a href="/locations/new">Add a new place first.</a>
-    </h3>
-  </div>
-</div>
-
+<% if Location.where({user_id: current_user.id}).count == 0 %>
+    <div class="row">
+      <div class="col-md-12">
+        <h2>
+          <strong style="color: red">WARNING:</strong> You have no places saved.
+          <a href="/locations/new">Add a new place first.</a>
+        </h2>
+      </div>
+    </div>
+<% end %>
 
 <div class="row">
   <div class="col-md-12">
