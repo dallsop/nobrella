@@ -9,16 +9,3 @@
       </a>
   <% end %>
 </h3>
-<%= DateTime.now.change(offset: "-0500") %>
-<%=  (DateTime.now.change(offset: "-0500").hour * 60) + (DateTime.now.change(offset: "-0500").min) %>
-<%=  (DateTime.now.hour * 60) + (DateTime.now.min) +960%>
-
-
-<%= DateTime.now.strftime('%A') %>
-<%= DateTime.now.tomorrow.strftime('%A') %>
-<p></p>
-<%= DateTime.now.zone %>
-<p></p>
-<%= Time.now.strftime('%z') %>
-
-<%= (DateTime.now.change(offset: "-0500").hour * 60) + (DateTime.now.change(offset: "-0500").min) + 960-1440 %>
