@@ -23,7 +23,7 @@
         <label for="location_id" class="control-label">
           Where to?
         </label>
-        <%= select_tag(:location_id, options_from_collection_for_select(Location.where({user_id: current_user.id}).order("name ASC"), :id, :name, @event.location.name), class: "form-control") %>
+        <%= select_tag(:location_id, options_from_collection_for_select(Location.where({user_id: current_user.id}).order("name ASC"), :id, :name, @event.location_id), class: "form-control") %>
       </div>
 
       <!-- Label and input for start -->
