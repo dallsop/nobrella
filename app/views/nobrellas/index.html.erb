@@ -9,7 +9,7 @@
       </a>
   <% end %>
 </h3>
-<%= DateTime.now %>
+<%= DateTime.now.change(offset: "-0500") %>
 <%=  (DateTime.now.hour * 60) + (DateTime.now.min) %>
 <%=  (DateTime.now.hour * 60) + (DateTime.now.min) +960%>
 
