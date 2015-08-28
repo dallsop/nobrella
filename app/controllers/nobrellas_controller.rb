@@ -4,7 +4,7 @@ class NobrellasController < ApplicationController
 
   def index
     # find relevant events (next 16 hours [960 minutes])
-    now_in_minutes = (DateTime.now.change(offset: "-0500").hour * 60) + (DateTime.change(offset: "-0500").now.min)
+    now_in_minutes = (DateTime.now.change(offset: "-0500").hour * 60) + (DateTime.now.change(offset: "-0500").min)
     end_in_minutes = now_in_minutes + 960
     today_weekday = DateTime.now.change(offset: "-0500").strftime("%A")
     if end_in_minutes <= 1440 # 16 hours from now is same day
