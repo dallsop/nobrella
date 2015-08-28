@@ -4,7 +4,6 @@ class NobrellasController < ApplicationController
 
   def index
     # find relevant events (next 16 hours [960 minutes])
-    @current_time = (DateTime.now.hour * 60) + (DateTime.now.min)
     now_in_minutes = (DateTime.now.hour * 60) + (DateTime.now.min)
     end_in_minutes = now_in_minutes + 960
     today_weekday = DateTime.now.strftime("%A")
