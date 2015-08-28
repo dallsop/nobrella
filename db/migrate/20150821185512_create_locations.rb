@@ -1,6 +1,5 @@
 class CreateLocations < ActiveRecord::Migration
   def change
-    drop_table :locations
     create_table :locations do |t|
       t.integer :user_id
       t.float :Longitude
