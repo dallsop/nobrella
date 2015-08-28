@@ -13,8 +13,8 @@
       </tr>
       <% @locations.each do |location| %>
           <tr>
-            <td><%= location.Name %></td>
-            <td><%= location.Address %></td>
+            <td><%= location.name %></td>
+            <td><%= location.address %></td>
             <td align="right">
               <a href="/locations/<%= location.id %>/edit" class="btn btn-sm btn-primary">Edit</a>
               <a href="/delete_location/<%= location.id %>" class="btn btn-sm btn-primary" rel="nofollow">Delete</a>

@@ -2,7 +2,7 @@ require 'open-uri'
 
 class LocationsController < ApplicationController
   def index
-    @locations = Location.where({user_id: current_user.id}).order("Name ASC")
+    @locations = Location.where({user_id: current_user.id}).order("name ASC")
   end
 
   def new
@@ -11,7 +11,7 @@ class LocationsController < ApplicationController
 
   def create
     # clean address
-    @street_address = params[:Address]
+    @street_address = params[:address]
     url_safe_street_address = URI.encode(@street_address)
 
     # connect to Google Maps API
@@ -29,10 +29,10 @@ class LocationsController < ApplicationController
       # assign all values to new db row
       @location = Location.new
       @location.user_id = current_user.id
-      @location.Name = params[:Name]
-      @location.Longitude = longitude
-      @location.Latitude = latitude
-      @location.Address = clean_address
+      @location.name = params[:name]
+      @location.longitude = longitude
+      @location.latitude = latitude
+      @location.address = clean_address
 
       # save new row and redirect to locations page
       @location.save
@@ -49,7 +49,7 @@ class LocationsController < ApplicationController
 
   def update
     # clean address
-    @street_address = params[:Address]
+    @street_address = params[:address]
     url_safe_street_address = URI.encode(@street_address)
 
     # connect to Google Maps API
@@ -67,10 +67,10 @@ class LocationsController < ApplicationController
       # assign all values to new db row
       @location = Location.find(params[:id])
       @location.user_id = params[:user_id]
-      @location.Name = params[:Name]
-      @location.Longitude = longitude
-      @location.Latitude = latitude
-      @location.Address = clean_address
+      @location.name = params[:name]
+      @location.longitude = longitude
+      @location.latitude = latitude
+      @location.address = clean_address
 
       # save new row and redirect to locations page
       @location.save

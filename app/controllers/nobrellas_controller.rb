@@ -8,10 +8,10 @@ class NobrellasController < ApplicationController
     end_in_minutes = now_in_minutes + 960
     today_weekday = DateTime.now.strftime("%A")
     if end_in_minutes <= 1440 # 16 hours from now is same day
-      key_events = Event.where("user_id = ? AND Day = ? AND Start BETWEEN ? AND ?", current_user.id, today_weekday, now_in_minutes, end_in_minutes).order("Start ASC")
+      key_events = Event.where("user_id = ? AND day = ? AND start BETWEEN ? AND ?", current_user.id, today_weekday, now_in_minutes, end_in_minutes).order("start ASC")
     else # 16 hours from now is next day
       tomorrow_weekday = DateTime.now.tomorrow.strftime("%A")
-      key_events = Event.where("user_id = ? AND ((Day = ? AND Start >= ?) OR (Day = ? AND Start <= ?))", current_user.id, today_weekday, now_in_minutes, tomorrow_weekday, end_in_minutes - 1440).order("Start ASC")
+      key_events = Event.where("user_id = ? AND ((day = ? AND start >= ?) OR (day = ? AND start <= ?))", current_user.id, today_weekday, now_in_minutes, tomorrow_weekday, end_in_minutes - 1440).order("start ASC")
     end
 
     if key_events.count > 0 # must be at least one event to check for
@@ -19,10 +19,10 @@ class NobrellasController < ApplicationController
       now_unix_time = Date.today.to_time.to_i # time in seconds since 1/1/1970 to match forecast.io API
       key_events.each do |e|
         # API input variables
-        @latitude = e.location.Latitude
-        @longitude = e.location.Longitude
-        target_time = now_unix_time + (60 * (e.Start - now_in_minutes))
-        target_time += 86400 if e.Day == tomorrow_weekday # add one day's time in seconds if day is tomorrow
+        @latitude = e.location.latitude
+        @longitude = e.location.longitude
+        target_time = now_unix_time + (60 * (e.start - now_in_minutes))
+        target_time += 86400 if e.day == tomorrow_weekday # add one day's time in seconds if day is tomorrow
         # get weather data
         forecast_url = "https://api.forecast.io/forecast/17593b21cc409b60b31ec90b6a5d8d38/#{@latitude},#{@longitude},#{target_time}"
         parsed_forecast_data = JSON.parse(open(forecast_url).read)
@@ -147,8 +147,8 @@ class NobrellasController < ApplicationController
         when 0
           @nobrella_advice = "You don't need anything!"
           @nobrella_detail = "It's pretty nice out."
-          @latitude = key_events[0].location.Latitude
-          @longitude = key_events[0].location.Longitude
+          @latitude = key_events[0].location.latitude
+          @longitude = key_events[0].location.longitude
         when 1
           @nobrella_advice = "Take #{things[0]}."
         when 2
@@ -189,8 +189,8 @@ class NobrellasController < ApplicationController
       all_user_locations = Location.where({user_id: current_user.id})
       if all_user_locations.count > 0 # if user has any locations set up
         sample_location = all_user_locations.sample
-        @latitude = sample_location.Latitude
-        @longitude = sample_location.Longitude
+        @latitude = sample_location.latitude
+        @longitude = sample_location.longitude
         forecast_url = "https://api.forecast.io/forecast/17593b21cc409b60b31ec90b6a5d8d38/#{@latitude},#{@longitude}"
         parsed_forecast_data = JSON.parse(open(forecast_url).read)
         current_summary = parsed_forecast_data["currently"]["summary"].downcase

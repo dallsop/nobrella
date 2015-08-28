@@ -23,23 +23,23 @@
         <label for="location_id" class="control-label">
           Where to?
         </label>
-        <%= select_tag(:location_id, options_from_collection_for_select(Location.where({user_id: current_user.id}).order("Name ASC"), :id, :Name), class: "form-control") %>
+        <%= select_tag(:location_id, options_from_collection_for_select(Location.where({user_id: current_user.id}).order("name ASC"), :id, :name), class: "form-control") %>
       </div>
 
-      <!-- Label and input for Start -->
+      <!-- Label and input for start -->
       <div class="form-group">
-        <label for="Start" class="control-label">
+        <label for="start" class="control-label">
           What time do you normally leave?
         </label>
-        <input type="text" id="Start" name="Start" placeholder="e.g. '6am' or '5:30pm'" class="form-control" value="<%= @event.Start %>">
+        <input type="text" id="start" name="start" placeholder="e.g. '6am' or '5:30pm'" class="form-control" value="<%= @event.start %>">
       </div>
 
-      <!-- Label and input for Day -->
+      <!-- Label and input for day -->
       <div class="form-group">
-        <label for="Day" class="control-label">
+        <label for="day" class="control-label">
           What day?
         </label>
-        <%= select_tag(:Day, options_for_select(@days, @input_day), class: "form-control") %>
+        <%= select_tag(:day, options_for_select(@days, @input_day), class: "form-control") %>
       </div>
 
 

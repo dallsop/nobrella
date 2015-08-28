@@ -1,7 +1,6 @@
 <div class="page-header">
   <h2>
     Weekly Schedule
-    <!--<a href="/events/new" class="btn btn-lg btn-success">New Event</a>-->
   </h2>
 </div>
 
@@ -16,12 +15,12 @@
       <tr>
         <% @days.each do |day| %>
             <td class="text-center">
-              <% @events.where({Day: day}).each do |e| %>
+              <% @events.where({day: day}).each do |e| %>
                   <div class="panel">
                     <div class="btn-group-justified btn-group-md">
                       <a href="/events/<%= e.id %>/edit" class="btn btn-primary">
-                        <%= Chronic.parse((e.Start / 60).to_i.to_s + ":" + (e.Start % 60).to_s).strftime('%l:%M%P') %>:
-                        <strong><%= e.location.Name %></strong>
+                        <%= Chronic.parse((e.start / 60).to_i.to_s + ":" + (e.start % 60).to_s).strftime('%l:%M%P') %>:
+                        <strong><%= e.location.name %></strong>
                       </a>
                     </div>
                     <div class="btn-group btn-group-justified btn-group-sm">
