@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'anjlab-bootstrap-rails', '~> 3.0.0.3', :require => 'bootstrap-rails'
+
 # Build app structure
 gem 'starter_generators', :git => "http://github.com/rbetina/starter_generators.git"
 
