@@ -4,7 +4,7 @@
   <% if @nobrella_detail == "N/A" %>
       Why not add some <a href="/locations/new">locations</a> and set up your <a href="/events">weekly schedule</a>?
   <% else %>
-      <a href="http://www.forecast.io/#/f/<%= @latitude %>,<%= @longitude %>">
+      <a href="http://www.forecast.io/#/f/<%= @latitude %>,<%= @longitude %>" target="_blank">
         <%= @nobrella_detail %>
       </a>
   <% end %>
