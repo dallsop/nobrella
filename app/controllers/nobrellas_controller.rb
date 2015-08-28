@@ -4,13 +4,13 @@ class NobrellasController < ApplicationController
 
   def index
     # find relevant events (next 16 hours [960 minutes])
-    now_in_minutes = (DateTime.now.hour * 60) + (DateTime.now.min)
+    now_in_minutes = (DateTime.now.change(offset: "-0500").hour * 60) + (DateTime.change(offset: "-0500").now.min)
     end_in_minutes = now_in_minutes + 960
-    today_weekday = DateTime.now.strftime("%A")
+    today_weekday = DateTime.now.change(offset: "-0500").strftime("%A")
     if end_in_minutes <= 1440 # 16 hours from now is same day
       key_events = Event.where("user_id = ? AND day = ? AND start BETWEEN ? AND ?", current_user.id, today_weekday, now_in_minutes, end_in_minutes).order("start ASC")
     else # 16 hours from now is next day
-      tomorrow_weekday = DateTime.now.tomorrow.strftime("%A")
+      tomorrow_weekday = DateTime.now.change(offset: "-0500").tomorrow.strftime("%A")
       key_events = Event.where("user_id = ? AND ((day = ? AND start >= ?) OR (day = ? AND start <= ?))", current_user.id, today_weekday, now_in_minutes, tomorrow_weekday, end_in_minutes - 1440).order("start ASC")
     end
 
