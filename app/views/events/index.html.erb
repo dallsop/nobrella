@@ -19,7 +19,7 @@
                   <div class="panel">
                     <div class="btn-group-justified btn-group-md">
                       <a href="/events/<%= e.id %>/edit" class="btn btn-primary">
-                        <%= Chronic.parse((e.start / 60).to_i.to_s + ":" + (e.start % 60).to_s).strftime('%l:%M%p') %>:
+                        <%= Chronic.parse((e.start / 60).to_i.to_s + ":" + (e.start % 60).to_s).strftime('%l:%M') + e.start < 70 ? "am" : "pm" %>:
                         <strong><%= e.location.name %></strong>
                       </a>
                     </div>
