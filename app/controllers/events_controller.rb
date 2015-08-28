@@ -15,7 +15,7 @@ class EventsController < ApplicationController
       redirect_to "/events/new/#{params[:day]}", alert: "Time not valid."
     else
       @event = Event.new
-      start_time_in_minutes = (Chronic.parse(params[:start]).strftime('%H').to_i * 60) + (Chronic.parse(params[:start]).strftime('%M').to_i)
+      start_time_in_minutes = (Chronic.parse(params[:start]).hour.to_i * 60) + (Chronic.parse(params[:start]).minute.to_i)
       @event.start = start_time_in_minutes
       @event.day = params[:day]
       @event.location_id = params[:location_id]
