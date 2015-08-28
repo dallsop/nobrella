@@ -4,7 +4,7 @@ class NobrellasController < ApplicationController
 
   def index
     # find relevant events (next 16 hours [960 minutes])
-    now_in_minutes = (DateTime.now.change(offset: "-0500").hour * 60) + (DateTime.now.change(offset: "-0500").min)
+    now_in_minutes = (DateTime.now.hour * 60) + (DateTime.now.min) - 300 # subtract 300 to adjust for time zone (TEMPORARY FIX)
     end_in_minutes = now_in_minutes + 960
     today_weekday = DateTime.now.change(offset: "-0500").strftime("%A")
     if end_in_minutes <= 1440 # 16 hours from now is same day
@@ -16,7 +16,7 @@ class NobrellasController < ApplicationController
 
     if key_events.count > 0 # must be at least one event to check for
       weather_info_array = Array.new # array to log weather data: time, summary, temperature, precipitation %
-      now_unix_time = DateTime.now.change(offset: "-0500").to_time.to_i # time in seconds since 1/1/1970 to match forecast.io API
+      now_unix_time = DateTime.now.to_time.to_i - 18000 # time in seconds since 1/1/1970 to match forecast.io API (18k subtract to fix time zone [TEMPORARY])
       key_events.each do |e|
         # API input variables
         @latitude = e.location.latitude
