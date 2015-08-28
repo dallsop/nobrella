@@ -16,7 +16,7 @@ class NobrellasController < ApplicationController
 
     if key_events.count > 0 # must be at least one event to check for
       weather_info_array = Array.new # array to log weather data: time, summary, temperature, precipitation %
-      now_unix_time = Date.today.to_time.to_i # time in seconds since 1/1/1970 to match forecast.io API
+      now_unix_time = DateTime.now.change(offset: "-0500").to_time.to_i # time in seconds since 1/1/1970 to match forecast.io API
       key_events.each do |e|
         # API input variables
         @latitude = e.location.latitude

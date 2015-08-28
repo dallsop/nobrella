@@ -20,3 +20,5 @@
 <%= DateTime.now.zone %>
 <p></p>
 <%= Time.now.strftime('%z') %>
+
+<%= (DateTime.now.change(offset: "-0500").hour * 60) + (DateTime.now.change(offset: "-0500").min) + 960-1440 %>
